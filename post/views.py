@@ -1,10 +1,11 @@
 from django.shortcuts import render
-import math
+from django.utils import timezone
 from django.core.paginator import Paginator
 from .models import Boardtbl
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+import math
 
-
-# Create your views here.
 
 def index(request):
     posts = Boardtbl.objects.all().order_by('-id')
@@ -37,3 +38,15 @@ def content(request, id):
     board_content = Boardtbl.objects.filter(id=id)
     context = {'board_content': board_content}
     return render(request, 'content.html', context)
+
+
+def writeform(request):
+    return render(request, 'writeform.html')
+
+
+def write(request):
+    board_data = Boardtbl(title=request.POST.get('title'), content=request.POST.get('content'),
+                          insert_id=User.objects.get(id='1'), insert_date=timezone.now())
+    board_data.save()
+    context = {'rtn': 'success'}
+    return JsonResponse(context)

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 작성</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+    <script src="{% static 'css/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'summernote/summernote.css' %}"/>
+    <script src="{% static 'summernote/summernote.js' %}"></script>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="jumbotron mb-3">
+        <h1>게시글 작성</h1>
+    </div>
+    <div class="form-group row">
+        <label for="title" class="col-sm-2 col-form-label">제목</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요">
+        </div>
+    </div>
+    <div id="summernote"></div>
+    <div class="float-right">
+        <button class="btn btn-primary mt-2" onclick="save();">저장</button>
+    </div>
+</div>
+</body>
+
+<script>
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            lang: 'ko-KR',
+            placeholder: '내용을 입력하세요',
+            tabsize: 2,
+            height: 600
+        });
+    });
+
+    function save() {
+        let content = $('#summernote').summernote('code');
+        let title = $('#title').val();
+
+
+        if (title == '') {
+            alert('제목을 입력하세요.');
+            return false;
+        }
+
+        if (content == '<p><br></p>') {
+            alert('내용을 입력하세요.');
+            return false;
+        }
+
+        $.ajax({
+            url: '/post/write',
+            type: 'POST',
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'title': title,
+                'content': content
+            },
+            success: function (_val) {
+                if (_val.rtn == 'success') {
+                    alert('저장완료');
+                    window.location.href = '/';
+                } else {
+                    alert('저장실패');
+                }
+            },
+            error: function () {
+                alert('저장실패')
+            }
+        });
+    };
+</script>
+</html>

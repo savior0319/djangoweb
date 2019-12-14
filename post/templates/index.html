@@ -13,10 +13,12 @@
 </head>
 <body>
 <div class="container mt-5">
-    <div class="jumbotron">
-        <h1>테스트 페이지</h1>
+    <div class="jumbotron mb-3">
+        <h1>게시판</h1>
     </div>
-
+    <div class="float-right" style="width: 100px;">
+        <button class="btn btn-primary mb-3" onclick="ufWriteForm();">글쓰기</button>
+    </div>
     <table data-toggle="table">
         <thead>
         <th>번호</th>
@@ -40,7 +42,6 @@
     <nav aria-label="Page navigation" class="mx-auto mt-5" style="width: 300px;">
         <ul class="pagination">
             <li class="page-item"><a class="page-link" href="?page={{ prev_page }}">&laquo;</a></li>
-
             {% for i in page_data %}
                 {% if contents.number == i %}
                     <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
@@ -48,15 +49,18 @@
                     <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
                 {% endif %}
             {% endfor %}
-
             {% if contents.has_next %}
                 <li class="page-item"><a class="page-link" href="?page={{ next_page }}">&raquo;</a>
                 </li>
             {% endif %}
-
         </ul>
     </nav>
 </div>
 </body>
 
+<script>
+    function ufWriteForm() {
+        window.location.href = '/post/writeform';
+    }
+</script>
 </html>

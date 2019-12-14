@@ -21,4 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
     path('post/<int:id>', views.content, name='content'),
+    path('post/writeform', views.writeform, name='writeform'),
+    path('post/write', views.write, name='write'),
 ]
