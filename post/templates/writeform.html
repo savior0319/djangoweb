@@ -23,8 +23,9 @@
         </div>
     </div>
     <div id="summernote"></div>
-    <div class="float-right">
-        <button class="btn btn-primary mt-2" onclick="save();">저장</button>
+    <div class="mx-auto" style="width: 140px;">
+        <button class="btn btn-primary mt-3 mb-5" onclick="back();">뒤로가기</button>
+        <button class="btn btn-primary mt-3 mb-5" onclick="save();">저장</button>
     </div>
 </div>
 </body>
@@ -38,6 +39,10 @@
             height: 600
         });
     });
+
+    function back() {
+        window.history.back();
+    }
 
     function save() {
         let content = $('#summernote').summernote('code');
